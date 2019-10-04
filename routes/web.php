@@ -10,17 +10,18 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('home');
-})->name('home');
-Route::group(['prefix'=>'do'],function(){
-    Route::get('/{action}/{name?}', [
-        'uses'=>'NiceActionController@getNiceAction',
-        'as'=>'niceaction'
-    ]);
-    Route::post('/',[
-        'uses'=>'NiceActionController@postNiceAction',
-        'as'=>'post_action'
-    ]);
+Route::group(['middleware'=>['web']],function(){
+    Route::get('/', function () {
+        return view('home');
+    })->name('home');
+    Route::group(['prefix'=>'do'],function(){
+        Route::get('/{action}/{name?}', [
+            'uses'=>'NiceActionController@getNiceAction',
+            'as'=>'niceaction'
+        ]);
+        Route::post('/',[
+            'uses'=>'NiceActionController@postNiceAction',
+            'as'=>'post_action'
+        ]);
+    });
 });
