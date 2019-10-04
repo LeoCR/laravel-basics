@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="container">
-        <a href="{{ route('greet') }}">Greet</a>
-        <a href="{{ route('hug') }}">Hug</a>
-        <a href="{{ route('kiss') }}">Kiss</a>
+        <a href="{{ route('niceaction',['action'=>'greet']) }}">Greet</a>
+        <a href="{{ route('niceaction',['action'=>'hug']) }}">Hug</a>
+        <a href="{{ route('niceaction',['action'=>'kiss']) }}">Kiss</a>
         <form action="{{ route('post_action') }}" method="post">
             <div class="form-group">
                 <label for="select-action">Select an Action</label>
