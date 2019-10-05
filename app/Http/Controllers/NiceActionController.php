@@ -12,7 +12,10 @@ class NiceActionController extends Controller{
         return view('home',['actions'=>$actions]);
     }
     public function getNiceAction($action,$name=null){
-        return view('actions.'.$action,['name'=>$name]);
+        if($name===null){
+            $name='you';
+        }
+        return view('actions.nice',['action'=>$action, 'name'=>$name]);
     }
     public function postNiceAction(Request $request){
         $this->validate($request,[
