@@ -20,9 +20,9 @@ Route::group(['middleware'=>['web']],function(){
             'uses'=>'NiceActionController@getNiceAction',
             'as'=>'niceaction'
         ]);
-        Route::post('/',[
-            'uses'=>'NiceActionController@postNiceAction',
-            'as'=>'post_action'
+        Route::post('/add_action',[
+            'uses'=>'NiceActionController@postInsertAction',
+            'as'=>'add_action'
         ]);
     });
 });
