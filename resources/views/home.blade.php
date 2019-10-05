@@ -25,5 +25,16 @@
             <button type="submit" class="btn btn-danger">Send</button>
             <input type="hidden" value="{{ Session::token() }}" name="_token"/>
         </form>
+        <br>
+        <ul>
+            @foreach($logged_actions as $logged_action)
+                <li>
+                    {{ $logged_action->nice_action->name }}
+                    @foreach($logged_action->nice_action->categories as $category)
+                            {{$category->name}}
+                    @endforeach
+                </li>
+            @endforeach
+        </ul>
     </div>
 @endsection
