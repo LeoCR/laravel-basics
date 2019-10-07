@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+
 use App\Pokemon;
 
 class PokemonController extends Controller{
@@ -17,15 +20,21 @@ class PokemonController extends Controller{
         $this->request = $request;
         $this->pokemon = $pokemon;
     }
+    public function getHome(){
+        $pokemons=Pokemon::all();
+        return view('home',[
+            'pokemons'=>$pokemons
+        ]);
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         $pokemon = $this->pokemon->all();
-        return response()->json(['data' => $pokemon,
+        return response()->json([
+            'data' => $pokemon,
             'status' => Response::HTTP_OK]);
     }
     /**
@@ -43,14 +52,18 @@ class PokemonController extends Controller{
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         try {
-            //Instanciamos la clase Pokemons
             $pokemon = new Pokemon();
-            //Declaramos el nombre con el nombre enviado en el request
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $originalFileName=$file->getClientOriginalName();
+            Storage::disk('public')->put($originalFileName,  File::get($file));
+
             $pokemon->name = $request->name;
-            //Guardamos el cambio en nuestro modelo
+            $pokemon->mime = $file->getClientMimeType();
+            $pokemon->original_filename = $originalFileName;
+            $pokemon->filename = $file->getFilename().'.'.$extension;
             $pokemon->save();
             return response()->json([
                 "message" => "Pokemon created"
@@ -75,7 +88,8 @@ class PokemonController extends Controller{
             return response()->json([
                 "pokemon" => $data
               ], 202);
-          } else {
+        }
+        else {
             return response()->json([
               "message" => "Pokemon not found"
             ], 404);
@@ -87,9 +101,7 @@ class PokemonController extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit($id){
     }
     /**
      * Update the specified resource in storage.

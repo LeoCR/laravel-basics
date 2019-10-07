@@ -11,6 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/create', function () {
+    return view('insert');
 });
+Route::get('/',[
+    'uses'=>'PokemonController@getHome',
+    'as'=>'home'
+]);
