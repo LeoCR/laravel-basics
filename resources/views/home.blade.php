@@ -36,5 +36,6 @@
                 </li>
             @endforeach
         </ul>
+        <!--var_dump($db); === dd($db)-->
     </div>
 @endsection

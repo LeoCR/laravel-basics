@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use \Illuminate\Http\Request;
 use App\NiceAction;
 use App\NiceActionLog;
-
+use DB;
 class NiceActionController extends Controller{
     public function postInsertAction(Request $request){
         $this->validate($request,[
@@ -20,11 +20,16 @@ class NiceActionController extends Controller{
         return redirect()->route('home',['actions'=>$actions]);
     }
     public function getHome(){
-        $actions= NiceAction::all();
+        //$actions= NiceAction::all();
+        $actions=DB::table('nice_actions')->get();
         $logged_actions=NiceActionLog::all();
+        $query=DB::table('nice_action_logs')
+        ->join('nice_actions','nice_action_logs.nice_action_id','=','nice_actions.id')
+        ->get();
         return view('home',[
             'actions'=>$actions,
-            'logged_actions'=>$logged_actions
+            'logged_actions'=>$logged_actions,
+            'db'=>$query
         ]);
     }
     public function getNiceAction($action,$name=null){
