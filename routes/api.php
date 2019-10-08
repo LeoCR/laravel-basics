@@ -15,3 +15,5 @@ use Illuminate\Http\Request;
  * php artisan route:list
  */
 Route::resource('pokemon', 'PokemonController');
+Route::resource('trainer', 'TrainerController');
+Route::post('add-pokemon-to-trainer', 'PokemonTrainerController@savePokemonTrainer');

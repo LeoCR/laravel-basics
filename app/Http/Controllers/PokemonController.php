@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
 use App\Pokemon;
+use App\Trainer;
 
 class PokemonController extends Controller{
     protected $pokemon;
@@ -22,8 +23,10 @@ class PokemonController extends Controller{
     }
     public function getHome(){
         $pokemons=Pokemon::all();
+        $trainers=Trainer::all();
         return view('home',[
-            'pokemons'=>$pokemons
+            'pokemons'=>$pokemons,
+            'trainers'=>$trainers
         ]);
     }
     /**
@@ -93,7 +96,7 @@ class PokemonController extends Controller{
             return response()->json([
               "message" => "Pokemon not found"
             ], 404);
-          }
+        }
     }
     /**
      * Show the form for editing the specified resource.
